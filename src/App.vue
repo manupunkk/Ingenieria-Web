@@ -1,18 +1,12 @@
 <template>
-  <div id="app">
-    <Padre />
-    <Hijo />
+  <div>
+    <Contacto />
   </div>
 </template>
 
 <script>
-import Padre from './components/Padre.vue'
-import Hijo from  './components/Hijo.vue'
-
+import Contacto from './components/Contacto.vue';
 export default {
-  components: {
-    Padre,
-    Hijo,
-  }
+  components: { Contacto }
 }
 </script>
