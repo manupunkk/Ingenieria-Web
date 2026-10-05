@@ -53,9 +53,16 @@ Contiene los datos utilizados para generar dinámicamente el catálogo de produc
 
 El catálogo contiene cuatro productos demostrativos asociados a la Región de Ñuble.
 
+## Cambios realizados
+
+Se incorporaron las siguientes mejoras personales al proyecto:
+
+- Se agregó un cuarto producto al catálogo para ampliar la variedad de productos disponibles.
+- Se incorporó la categoría "Artesanía", la cual se integra automáticamente al filtro de categorías.
+- Se modificó el texto principal del sitio para destacar a los emprendedores locales de la Región de Ñuble.
+- Se agregó un mensaje visual cuando el catálogo se encuentra oculto, indicando al usuario cómo volver a mostrarlo.
+- Se mantuvo un diseño responsive para adaptar la visualización del catálogo a diferentes tamaños de pantalla.
+
 ## Ejecución
 
-Instalar dependencias:
-
-```bash
 npm install
