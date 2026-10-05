@@ -1,21 +1,23 @@
+import 'dotenv/config';
 import { Module } from '@nestjs/common';
-import { createObserveModule } from '@nestjs/observe';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
-export const { ObserveModule, ObserveInstrument } = createObserveModule();
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { EmprendedoresModule } from './emprendedores/emprendedores.module';
+import { Emprendedor } from './emprendedores/entities/emprendedor.entity';
 
 @Module({
   imports: [
-    // Distributed tracing, auto-correlated logs, request/job metrics, error
-    // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com
-    ObserveModule.forRoot({
-      appKey: 'YOUR_APP_KEY',
-      appSecret: 'YOUR_APP_SECRET',
-      serviceId: 'backend-nest-emprendedores',
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT ?? 3306),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      entities: [Emprendedor],
+      synchronize: true,
     }),
+
+    EmprendedoresModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
