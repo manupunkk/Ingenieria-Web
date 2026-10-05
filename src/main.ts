@@ -1,10 +1,38 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule, ObserveInstrument } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    instrument: ObserveInstrument,
+    cors: true,
   });
-  await app.listen(process.env.PORT ?? 3000);
+
+  // Validación global
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+  // Configuración de Swagger
+  const config = new DocumentBuilder()
+    .setTitle('API Emprendedores Ñuble')
+    .setDescription('CRUD + búsqueda compatible con frontend Vue')
+    .setVersion('1.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('/api', app, document);
+
+  // Iniciar servidor
+  await app.listen(3000);
+
+  console.log('API en http://localhost:3000');
+  console.log('Swagger en http://localhost:3000/api');
 }
-void bootstrap();
+
+bootstrap();
