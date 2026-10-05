@@ -66,3 +66,64 @@ Se incorporaron las siguientes mejoras personales al proyecto:
 ## Ejecución
 
 npm install
+
+# Actividad 12 - Vue Router y Favoritos
+
+## Objetivo
+
+Transformar el proyecto Feria Artesanal de Ñuble en una aplicación SPA utilizando Vue Router, incorporando navegación entre vistas, detalle de productos y favoritos persistentes.
+
+## Funcionalidades
+
+- Navegación mediante RouterLink.
+- Rutas para Inicio, Productos, Favoritos y Contacto.
+- Ruta dinámica para visualizar el detalle de cada producto.
+- Buscador de productos.
+- Filtro por categorías.
+- Sistema de favoritos.
+- Persistencia de favoritos mediante localStorage.
+- Formulario de contacto con validación.
+- Página de error 404.
+- Diseño responsive.
+
+## Rutas
+
+- `/` - Inicio.
+- `/productos` - Catálogo de productos.
+- `/productos/:id` - Detalle de un producto.
+- `/favoritos` - Productos favoritos.
+- `/contacto` - Formulario de contacto.
+- Cualquier dirección inexistente muestra la página 404.
+
+## Conceptos aplicados
+
+- Vue Router
+- RouterLink
+- RouterView
+- Rutas dinámicas
+- useRoute
+- ref
+- computed
+- onMounted
+- props
+- emits
+- v-model
+- v-if / v-else
+- v-for
+- localStorage
+
+## Cambios realizados
+
+Se transformó el catálogo desarrollado anteriormente en una SPA con múltiples vistas.
+
+Se incorporó navegación mediante Vue Router y una ruta dinámica para consultar individualmente cada producto.
+
+Se agregó un sistema de favoritos persistentes utilizando localStorage.
+
+Se incorporó una vista de favoritos desde la cual también es posible eliminar productos guardados.
+
+Se agregó un formulario de contacto con validación de campos obligatorios.
+
+Se incorporó una página 404 para direcciones inexistentes.
+
+Se mejoró la presentación visual general, incluyendo navegación, tarjetas, catálogo, detalle de productos, formulario y diseño responsive.
