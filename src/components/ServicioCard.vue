@@ -3,8 +3,14 @@ defineProps({
   servicio: {
     type: Object,
     required: true
+  },
+  favorito: {
+    type: Boolean,
+    default: false
   }
 })
+
+const emit = defineEmits(['cambiar-favorito'])
 </script>
 
 <template>
@@ -29,8 +35,17 @@ defineProps({
       No disponible
     </p>
 
-    <RouterLink :to="`/servicios/${servicio.id}`">
-      Ver detalle
-    </RouterLink>
+    <div class="acciones">
+      <RouterLink :to="`/servicios/${servicio.id}`">
+        Ver detalle
+      </RouterLink>
+
+      <button
+        type="button"
+        @click="emit('cambiar-favorito', servicio.id)"
+      >
+        {{ favorito ? '★ Quitar favorito' : '☆ Agregar favorito' }}
+      </button>
+    </div>
   </article>
 </template>
