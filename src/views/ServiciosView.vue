@@ -1,10 +1,11 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import ServicioCard from '../components/ServicioCard.vue'
 import { servicios } from '../data/servicios'
 
 const buscar = ref('')
 const categoria = ref('Todas')
+const favoritos = ref([])
 
 const categorias = computed(() => {
   return ['Todas', ...new Set(servicios.map(servicio => servicio.categoria))]
@@ -22,6 +23,29 @@ const serviciosFiltrados = computed(() => {
 
     return coincideNombre && coincideCategoria
   })
+})
+
+function cambiarFavorito(id) {
+  if (favoritos.value.includes(id)) {
+    favoritos.value = favoritos.value.filter(
+      favoritoId => favoritoId !== id
+    )
+  } else {
+    favoritos.value.push(id)
+  }
+
+  localStorage.setItem(
+    'favoritos',
+    JSON.stringify(favoritos.value)
+  )
+}
+
+onMounted(() => {
+  const guardados = localStorage.getItem('favoritos')
+
+  if (guardados) {
+    favoritos.value = JSON.parse(guardados)
+  }
 })
 </script>
 
@@ -59,6 +83,8 @@ const serviciosFiltrados = computed(() => {
         v-for="servicio in serviciosFiltrados"
         :key="servicio.id"
         :servicio="servicio"
+        :favorito="favoritos.includes(servicio.id)"
+        @cambiar-favorito="cambiarFavorito"
       />
     </div>
 
