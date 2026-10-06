@@ -1,29 +1,52 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { servicios } from '../data/servicios'
+import { obtenerServicios } from '../services/serviciosService'
 
 const route = useRoute()
 
-const servicio = computed(() => {
-  return servicios.find(
-    servicio => servicio.id === Number(route.params.id)
-  )
+const servicio = ref(null)
+const cargando = ref(true)
+const error = ref('')
+
+onMounted(async () => {
+  try {
+    cargando.value = true
+    error.value = ''
+
+    const servicios = await obtenerServicios()
+
+    servicio.value = servicios.find(
+      servicio => servicio.id === Number(route.params.id)
+    )
+  } catch (err) {
+    console.error(err)
+    error.value = 'No fue posible cargar el servicio.'
+  } finally {
+    cargando.value = false
+  }
 })
 </script>
 
 <template>
   <section class="pagina">
-    <div v-if="servicio" class="detalle-servicio">
+
+    <p v-if="cargando">
+      Cargando servicio...
+    </p>
+
+    <p v-else-if="error">
+      {{ error }}
+    </p>
+
+    <div v-else-if="servicio" class="detalle-servicio">
       <span class="categoria">
         {{ servicio.categoria }}
       </span>
 
       <h1>{{ servicio.nombre }}</h1>
 
-      <p>
-        {{ servicio.descripcion }}
-      </p>
+      <p>{{ servicio.descripcion }}</p>
 
       <h2>
         ${{ servicio.precio.toLocaleString('es-CL') }}
@@ -50,11 +73,15 @@ const servicio = computed(() => {
 
     <div v-else>
       <h1>Servicio no encontrado</h1>
-      <p>El servicio solicitado no existe.</p>
+
+      <p>
+        El servicio solicitado no existe.
+      </p>
 
       <RouterLink to="/servicios">
         ← Volver a servicios
       </RouterLink>
     </div>
+
   </section>
 </template>

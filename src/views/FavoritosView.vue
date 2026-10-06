@@ -1,20 +1,16 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import ServicioCard from '../components/ServicioCard.vue'
-import { servicios } from '../data/servicios'
+import { obtenerServicios } from '../services/serviciosService'
 
+const servicios = ref([])
 const favoritos = ref([])
 
-onMounted(() => {
-  const guardados = localStorage.getItem('favoritos')
-
-  favoritos.value = guardados
-    ? JSON.parse(guardados)
-    : []
-})
+const cargando = ref(true)
+const error = ref('')
 
 const serviciosFavoritos = computed(() => {
-  return servicios.filter(servicio =>
+  return servicios.value.filter(servicio =>
     favoritos.value.includes(servicio.id)
   )
 })
@@ -29,14 +25,43 @@ function cambiarFavorito(id) {
     JSON.stringify(favoritos.value)
   )
 }
+
+onMounted(async () => {
+  const guardados = localStorage.getItem('favoritos')
+
+  favoritos.value = guardados
+    ? JSON.parse(guardados)
+    : []
+
+  try {
+    cargando.value = true
+    error.value = ''
+
+    servicios.value = await obtenerServicios()
+  } catch (err) {
+    console.error(err)
+    error.value = 'No fue posible cargar los servicios favoritos.'
+  } finally {
+    cargando.value = false
+  }
+})
 </script>
 
 <template>
   <section class="pagina">
+
     <h1>Servicios favoritos</h1>
 
+    <p v-if="cargando">
+      Cargando servicios...
+    </p>
+
+    <p v-else-if="error">
+      {{ error }}
+    </p>
+
     <div
-      v-if="serviciosFavoritos.length"
+      v-else-if="serviciosFavoritos.length"
       class="servicios-grid"
     >
       <ServicioCard
@@ -49,11 +74,14 @@ function cambiarFavorito(id) {
     </div>
 
     <div v-else>
-      <p>Aún no has seleccionado servicios favoritos.</p>
+      <p>
+        Aún no has seleccionado servicios favoritos.
+      </p>
 
       <RouterLink to="/servicios">
         Revisar servicios
       </RouterLink>
     </div>
+
   </section>
 </template>
