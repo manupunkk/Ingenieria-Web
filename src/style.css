@@ -9,3 +9,115 @@ input, select, textarea { display: block; width: 100%; max-width: 550px;
   box-sizing: border-box; padding: 9px; margin-top: 5px; }
 button { margin: 8px; padding: 9px 14px; cursor: pointer; }
 
+/* Actividad 14 - Personalización visual */
+button {
+  background: #153e5c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+button:hover:not(:disabled) {
+  background: #245f87;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Filtros */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.filtros input,
+.filtros select {
+  flex: 1 1 180px;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.filtros button {
+  margin: 0;
+}
+
+/* Tabla de servicios */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #dce5ec;
+  text-align: left;
+}
+
+th {
+  background: #153e5c;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: #f4f7fa;
+}
+
+/* Paginación */
+.paginacion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 650px) {
+  header {
+    padding: 16px;
+  }
+
+  main {
+    margin: 16px auto;
+    padding: 0 12px;
+  }
+
+  .filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filtros input,
+  .filtros select,
+  .filtros button {
+    width: 100%;
+    max-width: none;
+    flex: none;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 6px 4px;
+    overflow-wrap: anywhere;
+  }
+
+  td button {
+    margin: 3px 0;
+    padding: 6px 8px;
+  }
+
+  .paginacion {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
