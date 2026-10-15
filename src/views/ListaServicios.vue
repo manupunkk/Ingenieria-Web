@@ -36,6 +36,9 @@ const filtrados = computed(() => {
     return String(a.nombre).localeCompare(String(b.nombre), 'es')
   })
 })
+const precioTotal = computed(() =>
+  filtrados.value.reduce((total, servicio) => total + Number(servicio.precio), 0)
+)
 const totalPaginas = computed(() => Math.max(1, Math.ceil(filtrados.value.length / porPagina)))
 const visibles = computed(() => filtrados.value.slice((pagina.value - 1) * porPagina, pagina.value * porPagina))
 watch([buscando, categoria, orden], () => { pagina.value = 1 })
@@ -79,6 +82,7 @@ async function borrar(servicio) {
     <p v-if="error" role="alert" class="error">{{ error }}</p>
     <p v-if="mensaje" role="status">{{ mensaje }}</p>
     <template v-if="!cargando && !error">
+      <p><strong>Precio total de los servicios filtrados:</strong> ${{ precioTotal.toLocaleString('es-CL') }}</p>
       <p>{{ filtrados.length }} servicio(s) encontrado(s)</p>
       <p v-if="filtrados.length === 0">No hay resultados para los filtros seleccionados.</p>
       <table v-else>
