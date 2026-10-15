@@ -25,7 +25,7 @@ function validar() {
   const f = formulario.value
   const e = {}
   if (f.nombre.trim().length < 3) e.nombre = 'Ingrese al menos 3 caracteres.'
-  if (!['Soporte', 'Desarrollo', 'Redes'].includes(f.categoria)) e.categoria = 'Seleccione una categoría.'
+  if (!['Soporte', 'Desarrollo', 'Redes', 'Seguridad'].includes(f.categoria)) e.categoria = 'Seleccione una categoría.'
   if (f.precio === '' || !Number.isFinite(Number(f.precio)) || Number(f.precio) <= 0)
     e.precio = 'Ingrese un precio mayor que cero.'
   if (f.descripcion.trim().length < 10) e.descripcion = 'Ingrese al menos 10 caracteres.'
@@ -62,6 +62,7 @@ async function guardar() {
         <select v-model="formulario.categoria">
           <option value="">Seleccione</option><option>Soporte</option>
           <option>Desarrollo</option><option>Redes</option>
+          <option>Seguridad</option>
         </select>
       </label>
       <small v-if="errores.categoria" class="error">{{ errores.categoria }}</small>
