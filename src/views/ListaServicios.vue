@@ -40,6 +40,13 @@ const totalPaginas = computed(() => Math.max(1, Math.ceil(filtrados.value.length
 const visibles = computed(() => filtrados.value.slice((pagina.value - 1) * porPagina, pagina.value * porPagina))
 watch([buscando, categoria, orden], () => { pagina.value = 1 })
 
+function limpiarFiltros() {
+  buscando.value = ''
+  categoria.value = 'Todas'
+  orden.value = 'nombre-asc'
+  pagina.value = 1
+} 
+
 async function borrar(servicio) {
   if (!confirm(`¿Eliminar ${servicio.nombre}?`)) return
   error.value = ''; mensaje.value = ''
@@ -66,6 +73,7 @@ async function borrar(servicio) {
         <option value="precio-asc">Precio menor a mayor</option>
         <option value="precio-desc">Precio mayor a menor</option>
       </select>
+      <button type="button" @click="limpiarFiltros">Limpiar filtros</button>
     </div>
     <p v-if="cargando">Cargando servicios...</p>
     <p v-if="error" role="alert" class="error">{{ error }}</p>
